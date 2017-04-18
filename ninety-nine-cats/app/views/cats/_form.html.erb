@@ -1,41 +1,58 @@
-<form action="<%= cats_url %>" method="post">
+<% action == :new ? action_url = cats_url : action_url = cat_url(cat) %>
+
+
+
+<form action="<%= action_url %>" method="POST">
+  <% if action == :edit %>
+    <input type="hidden" name="_method" value="PATCH">
+  <% end %>
+
   <label>Name:
-    <input type="text" name="cat[name]">
+    <input type="text" name="cat[name]" value="<%= cat.name %>">
   </label>
 
   <br><br>
 
   <label>Sex:
-    <input type="radio" name="cat[sex]" value="M" checked>M
-    <input type="radio" name="cat[sex]" value="F">F
+    <input type="radio" name="cat[sex]" value="M" <%= cat.sex == 'M' || cat.sex.nil? ? "checked" : "" %>>M
+    <input type="radio" name="cat[sex]" value="F" <%= cat.sex == 'F' ? "checked" : "" %>>F
   </label>
 
   <br><br>
 
   <label>Birthday:
-    <input type="date" name="cat[birth_date]">
+    <input type="date" name="cat[birth_date]" value="<%= cat.birth_date %>">
   </label>
 
   <br><br>
 
   <label>Color:
     <select name="cat[color]">
-      <option disabled selected>--Purrease select--</option>
+
+      <option disabled <%= action == :new ? "selected" : "" %> >
+        --Purrease select--
+      </option>
+
       <% Cat::KITTY_COLORS.each do |color| %>
-        <option value="<%= color %>"><%= color %></option>
+        <option value="<%= color %>" <%= cat.color == color ? "selected" : "" %> >
+          <%= color %>
+        </option>
       <% end %>
+
     </select>
   </label>
 
   <br><br>
 
   <label>Description:
-    <textarea name="cat[description]" rows="8" cols="80"></textarea>
+    <textarea name="cat[description]" rows="8" cols="80">
+      <%= cat.description %>
+    </textarea>
   </label>
 
   <br><br>
 
-  <input type="submit" value="Add kitty">
+  <input type="submit" value="<%= action == :new ? "Add" : "Edit" %> kitty">
 </form>
 
 <br><br>
