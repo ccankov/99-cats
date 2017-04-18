@@ -8,7 +8,7 @@ class Cat < ApplicationRecord
   def age
     return nil if birth_date.nil?
     age = Date.today.year - birth_date.year
-    age -= 1 if Date.today < birth_date + age.years
+    Date.today < birth_date + age.years ? age - 1 : age
   end
 
 
