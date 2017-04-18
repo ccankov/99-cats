@@ -1,0 +1,43 @@
+<form action="<%= cats_url %>" method="post">
+  <label>Name:
+    <input type="text" name="cat[name]">
+  </label>
+
+  <br><br>
+
+  <label>Sex:
+    <input type="radio" name="cat[sex]" value="M" checked>M
+    <input type="radio" name="cat[sex]" value="F">F
+  </label>
+
+  <br><br>
+
+  <label>Birthday:
+    <input type="date" name="cat[birth_date]">
+  </label>
+
+  <br><br>
+
+  <label>Color:
+    <select name="cat[color]">
+      <option disabled selected>--Purrease select--</option>
+      <% Cat::KITTY_COLORS.each do |color| %>
+        <option value="<%= color %>"><%= color %></option>
+      <% end %>
+    </select>
+  </label>
+
+  <br><br>
+
+  <label>Description:
+    <textarea name="cat[description]" rows="8" cols="80"></textarea>
+  </label>
+
+  <br><br>
+
+  <input type="submit" value="Add kitty">
+</form>
+
+<br><br>
+
+<%= link_to "Cat Index", cats_url %>

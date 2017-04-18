@@ -14,6 +14,20 @@ class CatsController < ApplicationController
     end
   end
 
+  def new
+    render :new
+  end
+
+  def create
+    @cat = Cat.new(cat_purrams)
+
+    if @cat.save
+      redirect_to cat_url(@cat)
+    else
+      redirect_to new_cat_url
+    end
+  end
+
   private
 
   def cat_purrams
