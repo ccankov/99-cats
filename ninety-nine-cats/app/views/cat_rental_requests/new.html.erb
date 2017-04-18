@@ -1,0 +1,21 @@
+<h1>Rent a Kitty</h1>
+
+<form action="<%= cat_rental_requests_url %>" method="post">
+  <label>Kitty:
+    <select name="rental[cat_id]">
+      <% @cats.each do |cat| %>
+        <option value="<%= cat.id %>"> <%= cat.name %> </option>
+      <% end %>
+    </select>
+  </label>
+
+  <label>Start Date:
+    <input type="date" name="rental[start_date]">
+  </label>
+
+  <label>End Date:
+    <input type="date" name="rental[end_date]">
+  </label>
+
+  <input type="submit" value="Rent kitty">
+</form>

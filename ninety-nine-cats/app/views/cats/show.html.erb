@@ -18,6 +18,21 @@
 
 <p> <%= @cat.description %> </p>
 
+<h2>Rental Requests:</h2>
+
+<table>
+  <tr>
+    <th>Start Date</th>
+    <th>End Date</th>
+    <th>Status</th>
+    <th>Manage</th>
+  </tr>
+  <%= render @rentals %>
+</table>
+
+<br>
+
+
 <%= link_to "Edit Kitty", edit_cat_url(@cat) %>
 <br>
 <%= link_to "See all Cats", cats_url %>

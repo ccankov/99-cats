@@ -6,19 +6,23 @@ class CatRentalRequest < ApplicationRecord
   validate :does_not_overlap_approved_request
 
   belongs_to :cat,
-    primary_key: :id,
-    foreign_key: :cat_id,
-    class_name: :Cat
+             primary_key: :id,
+             foreign_key: :cat_id,
+             class_name: :Cat
 
   def overlapping_requests
     CatRentalRequest
-      .where('start_date BETWEEN ? AND ? OR end_date BETWEEN ? AND ?',
-             start_date, end_date, start_date, end_date)
+      .where.not('start_date > ? OR end_date < ?',
+                 end_date, start_date)
       .where.not(id: id)
   end
 
   def overlapping_approved_requests
     overlapping_requests.where(status: 'APPROVED')
+  end
+
+  def overlapping_pending_requests
+    overlapping_requests.where(status: 'PENDING')
   end
 
   def does_not_overlap_approved_request
@@ -27,7 +31,20 @@ class CatRentalRequest < ApplicationRecord
     end
   end
 
-  
+  def pending?
+    status == 'PENDING'
+  end
 
+  def approve!
+    self.status = 'APPROVED'
+    CatRentalRequest.transaction do
+      overlapping_pending_requests.each(&:deny!)
+      self.save
+    end
+  end
 
+  def deny!
+    self.status = 'DENIED'
+    self.save
+  end
 end

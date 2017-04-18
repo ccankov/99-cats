@@ -1,0 +1,11 @@
+<tr>
+  <td> <%= cat_rental_request.start_date %> </td>
+  <td> <%= cat_rental_request.end_date %> </td>
+  <td> <%= cat_rental_request.status %> </td>
+  <% if cat_rental_request.pending? %>
+    <td>
+      <%= button_to "Approve", rental_approve_url(cat_rental_request), method: :patch %>
+      <%= button_to "Deny", rental_deny_url(cat_rental_request), method: :patch %>
+    </td>
+  <% end %>
+</tr>
